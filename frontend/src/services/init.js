@@ -4,8 +4,8 @@ import filter from 'leo-profanity';
 import store from '../slices/index.js';
 import {
   newChannel, updateChannel, removeChannel, setActive,
-} from '../slices/channelsSlice';
-import { newMessage, removeMessage } from '../slices/messagesSlice';
+} from '../slices/channelsSlice.js';
+import { newMessage, removeMessage } from '../slices/messagesSlice.js';
 import i18nextInstance, { initializeI18next } from './i18nInstance.js';
 
 const runApp = async () => {

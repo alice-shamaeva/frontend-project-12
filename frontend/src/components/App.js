@@ -6,11 +6,11 @@ import SingInForm from './signInForm.js';
 import Home from './home.js';
 import NotFound from './notFoundPage.js';
 import SingUpForm from './signUpForm.js';
-import AppContext from '../services/AppContext';
-import routes from '../services/routes';
+import AppContext from '../services/AppContext.js';
+import routes from '../services/routes.js';
 import runApp from '../services/init.js';
 import 'react-toastify/dist/ReactToastify.css';
-import CommonModal from './commonModal';
+import CommonModal from './commonModal.js';
 
 const [rollbarConfig, filter] = await runApp();
 
@@ -29,6 +29,7 @@ const App = () => (
         </BrowserRouter>
       </AppContext.Provider>
     </ErrorBoundary>
+    <ToastContainer />
   </Provider>
 );
 

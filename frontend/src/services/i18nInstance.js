@@ -6,7 +6,7 @@ const i18nextInstance = i18next.createInstance();
 
 export const initializeI18next = async () => {
   await i18nextInstance.use(initReactI18next).init({
-    lng: 'ru',
+    lng: 'ru', // Текущий язык
     fallbackLng: 'ru',
     debug: true,
     resources: {

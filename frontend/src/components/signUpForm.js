@@ -8,20 +8,20 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { useSignupMutation } from '../services/authApi';
+import { useSignupMutation } from '../services/authApi.js';
 import validationSchema from '../services/validationSignUp.js';
 import CommonHeader from './commonHeader.js';
-import routes from '../services/routes';
+import routes from '../services/routes.js';
 
-const signUpForm = () => {
-  const [singUp, {isLoading: isSingingUp}] = useSignupMutation();
+const SingUpForm = () => {
+  const [singUp, { isLoading: isSingingUp }] = useSignupMutation();
   const [errorUsername, setErrorUsername] = useState('');
   const [focusUsername, setFocusedUsername] = useState(false);
   const [focusPassword, setFocusedPassword] = useState(false);
   const [focusConfirm, setFocusedConfirm] = useState(false);
   const userData = useSelector((state) => state.user);
   localStorage.setItem('token', userData.token);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -31,9 +31,9 @@ const signUpForm = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      const {username, password} = values;
+      const { username, password } = values;
 
-      const response = await singUp({username, password});
+      const response = await singUp({ username, password });
       if (Object.hasOwn(response, 'error')) {
         if (response.error.status === 409) setErrorUsername(t('signUpForm.errors.alreadyExist'));
       }
@@ -55,7 +55,7 @@ const signUpForm = () => {
     },
   };
 
-  if (userData.token !== '') return <Navigate to={routes.home}/>;
+  if (userData.token !== '') return <Navigate to={routes.home} />;
 
   return (
     <>
@@ -122,4 +122,4 @@ const signUpForm = () => {
   );
 };
 
-export default signUpForm;
+export default SingUpForm;

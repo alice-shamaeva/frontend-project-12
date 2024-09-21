@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import routes from "@hexlet/chat-server/src/routes";
+import routes from './routes.js';
 
 export const authApi = createApi({
   reducerPath: 'auth',

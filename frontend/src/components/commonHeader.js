@@ -18,7 +18,7 @@ const CommonHeader = () => {
   };
 
   return (
-    <Navbar className="shadow-sm bg white">
+    <Navbar className="shadow-sm bg-white">
       <Container>
         <Navbar.Brand href={routes.home}>{t('header.brand')}</Navbar.Brand>
         {isLoggedIn ? <Button onClick={clickhandler}>{t('header.button')}</Button> : null}

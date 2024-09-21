@@ -7,10 +7,10 @@ import Spinner from 'react-bootstrap/Spinner';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import * as messagesApi from '../services/messagesApi';
-import { selectors as messagesSelectors } from '../slices/messagesSlice';
-import { selectors as channelsSelectors } from '../slices/channelsSlice';
-import AppContext from '../services/AppContext';
+import * as messagesApi from '../services/messagesApi.js';
+import { selectors as messagesSelectors } from '../slices/messagesSlice.js';
+import { selectors as channelsSelectors } from '../slices/channelsSlice.js';
+import AppContext from '../services/AppContext.js';
 
 const MessagesList = () => {
   const { isLoading } = messagesApi.useGetMessagesQuery();
@@ -75,8 +75,8 @@ const MessagesList = () => {
         {isLoading ? <Spinner animation="border" role="status" /> : currentChannelMessages}
       </ListGroup>
       <div className="mt-auto m-0 p-3 w-100">
-        <Formik initialValues={{ message: '' }} onSubmit={messageSubmitHandler}>
-          <Form noValidate className="border rounded-2">
+        <Formik initialValues={{ message: '' }}>
+          <Form noValidate className="border rounded-2" onSubmit={messageSubmitHandler}>
             <div className="input-group has-validation">
               <Form.Control
                 type="name"

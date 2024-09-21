@@ -7,11 +7,11 @@ import Form from 'react-bootstrap/Form';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useAddChannelMutation } from '../services/channelsApi';
-import validate from '../services/validationChannel';
-import { setActive, selectors } from '../slices/channelsSlice';
-import AppContext from '../services/AppContext';
-import { hide } from '../slices/modalSlice';
+import { useAddChannelMutation } from '../services/channelsApi.js';
+import validate from '../services/validationChannel.js';
+import { setActive, selectors } from '../slices/channelsSlice.js';
+import AppContext from '../services/AppContext.js';
+import { hide } from '../slices/modalSlice.js';
 
 const CreateChannelModal = () => {
   const [createChannel,

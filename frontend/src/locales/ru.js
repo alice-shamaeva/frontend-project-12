@@ -13,9 +13,9 @@ export default {
       errors: {
         required: 'Обязательное поле',
         usernameRules: 'От 3 до 20 символов',
-        alreadyExist: 'Такой пароль уже существует',
+        alreadyExist: 'Такой пользователь уже существует',
         minPassword: 'Не менее 6 символов',
-        passwordMatch: 'Пароли должны',
+        passwordMatch: 'Пароли должны совпадать',
       },
     },
     signInForm: {
@@ -28,7 +28,7 @@ export default {
     },
     chat: {
       channels: 'Каналы',
-      message: 'Введите сообщение ...',
+      message: 'Введите сообщение...',
       send: 'Отправить',
       count_one: '{{count}} сообщение',
       count_few: '{{count}} сообщения',
