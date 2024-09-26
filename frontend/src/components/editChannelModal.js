@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, {
   useState, useRef, useEffect, useContext,
 } from 'react';
@@ -7,14 +8,14 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useEditChannelMutation } from '../services/channelsApi.js';
-import validate from '../services/validationChannel.js';
-import { selectors } from '../slices/channelsSlice.js';
-import AppContext from '../services/AppContext.js';
-import { hide } from '../slices/modalSlice.js';
+import { useEditChannelMutation } from '../services/channelsApi';
+import validate from '../services/validationChannel';
+import { selectors } from '../slices/channelsSlice';
+import AppContext from '../services/AppContext';
+import { hide } from '../slices/modalSlice';
 
 const EditChannelModal = () => {
-  const [editChannel, { isLoading }] = useEditChannelMutation();
+  const [editChannel, { isLoading: isEditingChannel }] = useEditChannelMutation();
   const channelsNames = useSelector(selectors.selectAll).map((channel) => channel.name);
   const [error, setError] = useState('');
   const filter = useContext(AppContext);
@@ -28,20 +29,20 @@ const EditChannelModal = () => {
 
   const formik = useFormik({
     initialValues: {
-      renameChannel: channelToEdit.name,
+      renamedChannel: channelToEdit.name,
     },
     enableReinitialize: true,
-    onSubmit: async (values) => {
+    onSubmit: async (value) => {
       const { renamedChannel } = value;
       const checkedRenamedChannel = filter.clean(renamedChannel);
       try {
         await validate(renamedChannel.trim(), channelsNames);
-        const request = { id: channelToEdit.name, name: checkedRenamedChannel.trim() };
+        const request = { id: channelToEdit.id, name: checkedRenamedChannel.trim() };
         editChannel(request);
         formik.values.renamedChannel = '';
         handleClose();
       } catch (validationError) {
-        setError(t(errorText));
+        setError(t(...validationError.errors));
       }
     },
   });
@@ -94,4 +95,3 @@ const EditChannelModal = () => {
 };
 
 export default EditChannelModal;
-
