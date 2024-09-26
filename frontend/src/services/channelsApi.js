@@ -42,5 +42,5 @@ export const {
   useGetChannelsQuery,
   useAddChannelMutation,
   useEditChannelMutation,
-  useRemoveChannelsMutation,
+  useRemoveChannelMutation,
 } = channelsApi;
