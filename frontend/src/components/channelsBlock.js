@@ -31,6 +31,7 @@ const ChannelsList = () => {
         }
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     scroll();
   }, [active]);
 

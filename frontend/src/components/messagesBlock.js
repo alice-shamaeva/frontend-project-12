@@ -36,7 +36,7 @@ const MessagesList = () => {
         if (lastMessage !== null) lastMessage.scrollIntoView();
       }
     };
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     scroll();
   }, [messages]);
 
