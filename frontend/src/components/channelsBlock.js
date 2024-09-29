@@ -31,9 +31,8 @@ const ChannelsList = () => {
         }
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     scroll();
-  }, [active]);
+  }, [active]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const modalHandler = (type, data = { name: '', id: '' }) => () => {
     dispatch(setChannelToEdit(data));
