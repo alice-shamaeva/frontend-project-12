@@ -42,9 +42,9 @@ const Message = () => {
         validationSchema={messageSchema}
       >
         {({
-            handleSubmit, handleChange, values, errors,
-          }) => (
-          <Form onSubmit={handleSubmit}>
+          handleSubmit, handleChange, values, errors,
+        }) => (
+            <Form onSubmit={handleSubmit}>
             <InputGroup>
               <Form.Label htmlFor="newMessage" hidden>{t('form.labels.message')}</Form.Label>
               <Form.Control
@@ -63,7 +63,7 @@ const Message = () => {
               </Button>
               <Form.Control.Feedback type="invalid">{errors.message}</Form.Control.Feedback>
             </InputGroup>
-          </Form>
+            </Form>
         )}
       </Formik>
     </div>

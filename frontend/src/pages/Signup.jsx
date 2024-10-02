@@ -70,9 +70,9 @@ const Signup = () => {
                   validateOnChange={false}
                 >
                   {({
-                      handleSubmit, handleChange, values, errors,
-                    }) => (
-                    <Form onSubmit={handleSubmit} className="form">
+                    handleSubmit, handleChange, values, errors,
+                  }) => (
+                      <Form onSubmit={handleSubmit} className="form">
                       <h1>{t('signupPage.title')}</h1>
                       <Form.Group className="mb-3">
                         <Form.Label htmlFor="nickname">{t('signupPage.nickname')}</Form.Label>
@@ -90,7 +90,7 @@ const Signup = () => {
                         <Form.Control.Feedback type="invalid">{errors.passwordConfirm}</Form.Control.Feedback>
                       </Form.Group>
                       <Button type="submit" className="w-100" variant="outline-primary">{t('signupPage.button')}</Button>
-                    </Form>
+                      </Form>
                   )}
                 </Formik>
               </Col>

@@ -52,9 +52,9 @@ const RenameChannel = (props) => {
           onSubmit={renameChannel}
         >
           {({
-              values, handleChange, handleSubmit, errors,
-            }) => (
-            <Form onSubmit={handleSubmit}>
+            values, handleChange, handleSubmit, errors,
+          }) => (
+              <Form onSubmit={handleSubmit}>
               <Form.Label htmlFor="channelName" visuallyHidden>{t('form.labels.channelName')}</Form.Label>
               <Form.Control
                 ref={input}
@@ -77,7 +77,7 @@ const RenameChannel = (props) => {
                 </Button>
                 <Button type="submit" variant="primary">{t('form.buttons.submit')}</Button>
               </div>
-            </Form>
+              </Form>
           )}
         </Formik>
       </Modal.Body>

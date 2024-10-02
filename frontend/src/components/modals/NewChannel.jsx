@@ -46,9 +46,9 @@ const NewChannel = (props) => {
           validationSchema={channelNameSchema}
         >
           {({
-              values, handleChange, handleSubmit, errors,
-            }) => (
-            <Form onSubmit={handleSubmit}>
+            values, handleChange, handleSubmit, errors,
+          }) => (
+              <Form onSubmit={handleSubmit}>
               <Form.Label htmlFor="channelName">{t('form.labels.channelName')}</Form.Label>
               <Form.Control value={values.channelName} name="channelName" onChange={handleChange} id="channelName" isInvalid={!!errors.channelName} autoFocus />
               <Form.Control.Feedback type="invalid">{errors.channelName}</Form.Control.Feedback>
@@ -56,7 +56,7 @@ const NewChannel = (props) => {
                 <Button type="button" variant="secondary" onClick={handleCloseModal} className="me-2">{t('form.buttons.cancel')}</Button>
                 <Button type="submit" variant="primary">{t('form.buttons.submit')}</Button>
               </div>
-            </Form>
+              </Form>
           )}
         </Formik>
       </Modal.Body>
