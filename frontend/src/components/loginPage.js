@@ -12,7 +12,7 @@ import { Eye, EyeSlash } from 'react-bootstrap-icons';
 
 import image from '../assets/login.jpg';
 import routes from '../services/routes.js';
-import { useAuth } from '../services/context/authContext.jsx';
+import { useAuth } from '../services/context/authContext.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
