@@ -1,14 +1,20 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.css';
+import React from 'react';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
-
 import './index.css';
-import init from './init.js';
+import store from './store';
+import init from './init.jsx';
 
-const app = async () => {
+const startApp = async () => {
   const root = ReactDOM.createRoot(document.getElementById('root'));
-  const vdom = await init();
-  root.render(vdom);
+  const initApp = await init();
+  root.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        {initApp}
+      </Provider>
+    </React.StrictMode>,
+  );
 };
 
-app();
+startApp();

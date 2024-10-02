@@ -1,79 +1,83 @@
-const ru = {
+export default {
   translation: {
-    language: {
-      currentLanguage: 'Русский',
-      russian: 'Русский',
-      english: 'English',
+    header: {
+      logout: 'Выйти',
     },
-    error: {
-      somethingWentWrong: 'Что-то пошло не так',
-      refreshPage: 'Обновить',
-    },
-    login: {
-      signin: 'Войти',
-      username: 'Ваш ник',
+    loginPage: {
+      title: 'Вход',
+      imgAlt: 'главное изображение',
+      nickname: 'Ваш ник',
       password: 'Пароль',
-      noAccountYet: 'Нет аккаунта?',
-      signup: 'Регистрация',
-      wrongNameAndPassword: 'Неверные имя пользователя или пароль',
-      requiredField: 'Обязательное поле',
+      button: 'Войти',
+      footer: {
+        text: 'Нет аккаунта?',
+        link: 'Регистрация',
+      },
     },
-    signup: {
-      registration: 'Регистрация',
-      username: 'Имя пользователя',
+    signupPage: {
+      title: 'Регистрация',
+      imgAlt: 'главное изображение для регистрации',
+      nickname: 'Имя пользователя',
       password: 'Пароль',
       passwordConfirm: 'Подтвердите пароль',
-      signup: 'Зарегистрироваться',
-      requiredField: 'Обязательное поле',
-      passwordsMatch: 'Пароли должны совпадать',
-      usernameLength: 'От 3 до 20 символов',
-      passwordLength: 'Не менее 6 символов',
-      userExists: 'Такой пользователь уже существует',
-    },
-    notFound: {
-      pageNotFound: 'Страница не найдена',
-      visit: 'Но вы можете перейти ',
-      mainPage: 'на главную сраницу',
-    },
-    header: {
-      logout: 'Выйти',
-      login: 'Войти',
-    },
-    chat: {
-      channels: {
-        channels: 'Каналы',
-        remove: 'Удалить',
-        rename: 'Переименовать',
-        manageChannels: 'Управление каналом',
+      button: 'Зарегистрироваться',
+      footer: {
+        text: 'Есть аккаунт?',
+        link: 'Вход',
       },
-      messages: {
-        quantity: {
-          count_one: '{{count}} сообщение',
-          count_few: '{{count}} сообщения',
-          count_many: '{{count}} сообщений',
-        },
-        enterMessage: 'Введите сообщение',
+    },
+    notFoundPage: {
+      title: 'Страница не найдена',
+    },
+    channels: {
+      title: 'Каналы',
+      dropdown: {
+        delete: 'Удалить',
+        rename: 'Переименовать',
+      },
+    },
+    messages_one: '{{count}} сообщение',
+    messages_few: '{{count}} сообщения',
+    messages_many: '{{count}} сообщений',
+    modals: {
+      titleRenameChannel: 'Переименовать канал',
+      titleDeleteChannel: 'Удалить канал',
+      titleAddChannel: 'Добавить канал',
+      textDeleteChannel: 'Вы действительно хотите удалить канал?',
+    },
+    form: {
+      labels: {
+        channelName: 'Имя канала',
         newMessage: 'Новое сообщение',
       },
-      modals: {
-        addChannel: 'Добавить канал',
-        removeChannel: 'Удалить канал',
-        renameChannel: 'Переименовать канал',
-        cancel: 'Отменить',
-        submit: 'Отправить',
-        remove: 'Удалить',
-        areYouSure: 'Вы уверенны?',
-        nameLength: 'От 3 до 20 символов',
-        nameExists: 'Имя уже существует',
-        channelCreated: 'Канал создан',
-        channelRemoved: 'Канал удалён',
-        channelRenamed: 'Канал переименован',
-        connectionError: 'Ошибка соединения',
-        channelName: 'Имя канала',
-        requiredField: 'Обязательное поле',
+      placeholders: {
+        message: 'Новое сообщение',
       },
+      buttons: {
+        submit: 'Отправить',
+        cancel: 'Отменить',
+        delete: 'Удалить',
+      },
+      errors: {
+        required: 'Обязательное поле',
+        channelExists: 'Такой канал уже существует',
+        range: 'От 3 до 20 символов',
+        min: 'Не менее 6 символов',
+        userExists: 'Такой пользователь уже существует',
+        nickname: 'Неверные имя пользователя или пароль',
+        password: 'Неверные имя пользователя или пароль',
+        passwordConfirm: 'Неверные имя пользователя или пароль',
+        passwordMustMatch: 'Пароли должны совпадать',
+      },
+    },
+    dropdown: {
+      toggle: 'Управление каналом',
+    },
+    toast: {
+      addChannel: 'Канал создан',
+      deleteChannel: 'Канал удалён',
+      renameChannel: 'Канал переименован',
+      errorNetwork: 'Ошибка соединения',
     },
   },
 };
-
-export default ru;
