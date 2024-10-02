@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useChatWS } from '../../services/context/chatWSContext.js';
+import { useChatWS } from '../../context/chatWSContext.js';
 import { getChannelId } from '../../slices/modalsSlice.js';
 import { setDefaultChannel, removeChannel } from '../../slices/channelsSlice.js';
 

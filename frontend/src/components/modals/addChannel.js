@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useChatWS } from '../../services/context/chatWSContext.js';
+import { useChatWS } from '../../context/chatWSContext.js';
 import { getChannelsNames, setCurrentChannelId, addChannel } from '../../slices/channelsSlice.js';
 
 const AddChannel = ({ hide }) => {

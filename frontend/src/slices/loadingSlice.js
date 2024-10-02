@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import routes from '../services/routes.js';
+import routes from '../routes';
 
 export const fetchData = createAsyncThunk(
   'fetch',

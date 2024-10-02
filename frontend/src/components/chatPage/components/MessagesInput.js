@@ -5,8 +5,8 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
 
-import { useChatWS } from '../../../services/context/chatWSContext.js';
-import { useAuth } from '../../../services/context/authContext.js';
+import { useChatWS } from '../../../context/chatWSContext.jsx';
+import { useAuth } from '../../../context/authContext.jsx';
 
 const MessagesInput = ({ currentChannelId }) => {
   const inputRef = useRef(null);

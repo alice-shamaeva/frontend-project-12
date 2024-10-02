@@ -9,8 +9,8 @@ import LoginPage from './components/loginPage.js';
 import SignupPage from './components/signUpForm.js';
 import Chat from './components/chatPage/chatPage.js';
 import NotFoundPage from './components/notFoundPage.js';
-import { AuthProvider, useAuth } from './services/context/authContext.js';
-import routes from './services/routes.js';
+import { AuthProvider, useAuth } from './context/authContext.js';
+import routes from './routes';
 
 const LoggedInRoute = () => {
   const { userData } = useAuth();

@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactDOM from 'react-dom/client';
 
 import './index.css';
-import init from './services/init.js';
+import init from './init.js';
 
 const app = async () => {
   const root = ReactDOM.createRoot(document.getElementById('root'));

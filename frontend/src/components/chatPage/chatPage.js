@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Spinner } from 'react-bootstrap';
 
-import { useAuth } from '../../services/context/authContext.js';
+import { useAuth } from '../../context/authContext.js';
 import {
   fetchData, getLoadingError, getloadingState,
 } from '../../slices/loadingSlice.js';
@@ -12,7 +12,7 @@ import Messages from './components/messages.js';
 import Modal from '../modals/modal.js';
 import Error from './components/error.js';
 import { openModal } from '../../slices/modalsSlice.js';
-import routes from '../../services/routes.js';
+import routes from '../../routes.js';
 
 const Chat = () => {
   const navigate = useNavigate();

@@ -6,12 +6,12 @@ import { io } from 'socket.io-client';
 import leoProfanity from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary as RollbarErrorBoundary } from '@rollbar/react';
 
-import resources from '../locales/index.js';
-import App from '../App.js';
-import store from '../slices/index.js';
+import resources from './locales/index.js';
+import App from './App';
+import store from './slices/index.js';
 import { ChatWSProvider } from './context/chatWSContext.js';
-import { addMessage } from '../slices/messagesSlice.js';
-import { addChannel, updateChannel, removeChannel } from '../slices/channelsSlice.js';
+import { addMessage } from './slices/messagesSlice.js';
+import { addChannel, updateChannel, removeChannel } from './slices/channelsSlice';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -19,7 +19,7 @@ const init = async () => {
     resources,
     fallbackLng: 'ru',
   };
-  await i18n
+  i18n
     .use(initReactI18next)
     .init(options);
 
