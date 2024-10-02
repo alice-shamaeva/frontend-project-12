@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { useAuth } from '../../../context/authContext.jsx';
+import { useAuth } from '../../../context/authContext.js';
 import routes from '../../../routes.js';
 
 const LogOutButton = () => {

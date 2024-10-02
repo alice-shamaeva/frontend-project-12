@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
-import { removeChannel } from './channelsSlice';
+import { removeChannel } from './channelsSlice.js';
 import { fetchData } from './loadingSlice.js';
 
 const messagesAdapter = createEntityAdapter();

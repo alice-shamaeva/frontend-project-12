@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 
-import routes from '../../../routes';
+import routes from '../../../routes.js';
 
 const LoginButton = () => {
   const { t } = useTranslation();

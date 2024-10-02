@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from './components/logoutButton.js';
 import LoginButton from './components/loginButton.js';
 import LanguageButton from './components/languageButton.js';
-import routes from '../../routes';
+import routes from '../../routes.js';
 
 const Header = () => (
   <Navbar bg="wight" expand="lg" className="shadow-sm">
