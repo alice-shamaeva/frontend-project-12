@@ -1,48 +1,71 @@
-import { toast } from 'react-toastify';
-import io from 'socket.io-client';
-import filter from 'leo-profanity';
+import React, { StrictMode } from 'react';
+import i18next from 'i18next';
+import { initReactI18next, I18nextProvider } from 'react-i18next';
+import { Provider } from 'react-redux';
+import { io } from 'socket.io-client';
+import leoProfanity from 'leo-profanity';
+import { Provider as RollbarProvider, ErrorBoundary as RollbarErrorBoundary } from '@rollbar/react';
+
+import resources from '../locales/index.js';
+import App from '../App.js';
 import store from '../slices/index.js';
-import {
-  newChannel, updateChannel, removeChannel, setActive,
-} from '../slices/channelsSlice.js';
-import { newMessage, removeMessage } from '../slices/messagesSlice.js';
-import i18nextInstance, { initializeI18next } from './i18nInstance.js';
+import { ChatWSProvider } from './context/chatWSContext.js';
+import { addMessage } from '../slices/messagesSlice.js';
+import { addChannel, updateChannel, removeChannel } from '../slices/channelsSlice.js';
 
-const runApp = async () => {
-  await initializeI18next();
+const init = async () => {
+  const i18n = i18next.createInstance();
+  const options = {
+    resources,
+    fallbackLng: 'ru',
+  };
+  await i18n
+    .use(initReactI18next)
+    .init(options);
 
-  const socket = io();
+  const webSocket = io();
 
-  socket.on('newChannel', (channel) => {
-    store.dispatch(newChannel(channel));
-    toast.success(i18nextInstance.t('toasts.create'), { closeOnClick: true, toastId: '1' });
+  const enDictionary = leoProfanity.getDictionary('en');
+  const ruDictionary = leoProfanity.getDictionary('ru');
+  leoProfanity.add(enDictionary);
+  leoProfanity.add(ruDictionary);
+
+  webSocket.on('connect', () => {
+    console.log('webSocket connected', webSocket.connected);
   });
-  socket.on('removeChannel', ({ id }) => {
-    const { active } = store.getState().channels;
-    if (active === id) store.dispatch(setActive('1'));
-    store.dispatch(removeChannel(id));
-    toast.success(i18nextInstance.t('toasts.delete'), { toastId: '2' });
+  webSocket.on('newMessage', (payload) => {
+    store.dispatch(addMessage(payload));
   });
-  socket.on('renameChannel', (channel) => {
-    const changes = { name: channel.name };
-    store.dispatch(updateChannel({ id: channel.id, changes }));
-    toast.success(i18nextInstance.t('toasts.edit'), { toastId: '3' });
+  webSocket.on('newChannel', (payload) => {
+    store.dispatch(addChannel(payload));
   });
-  socket.on('newMessage', (message) => {
-    store.dispatch(newMessage(message));
+  webSocket.on('removeChannel', (payload) => {
+    store.dispatch(removeChannel(payload.id));
   });
-  socket.on('removeMessage', ({ id }) => {
-    store.dispatch(removeMessage(id));
+  webSocket.on('renameChannel', (payload) => {
+    store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } }));
   });
 
   const rollbarConfig = {
-    accessToken: store.getState().user.token,
-    environment: process.env.NODE_ENV,
+    accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+    environment: 'production',
   };
 
-  filter.loadDictionary(navigator.language);
-
-  return [rollbarConfig, filter];
+  return (
+    <RollbarProvider config={rollbarConfig}>
+      <RollbarErrorBoundary>
+        <StrictMode>
+          <Provider store={store}>
+            <I18nextProvider i18n={i18n}>
+              <ChatWSProvider webSocket={webSocket}>
+                <App />
+              </ChatWSProvider>
+            </I18nextProvider>
+          </Provider>
+        </StrictMode>
+      </RollbarErrorBoundary>
+    </RollbarProvider>
+  );
 };
 
-export default runApp;
+export default init;

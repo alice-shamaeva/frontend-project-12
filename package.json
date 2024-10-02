@@ -1,8 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/alice-shamaeva/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/alice-shamaeva/frontend-project-12/actions)",
-  "main": "index.js",
+  "description": "4 проект 'Чат Slack'",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build --prefix frontend",

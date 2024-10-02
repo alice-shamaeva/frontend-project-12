@@ -1,126 +1,164 @@
-/* eslint-disable import/no-unresolved */
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { useSignupMutation } from '../services/authApi.js';
-import validationSchema from '../services/validationSignUp.js';
-import CommonHeader from './commonHeader.js';
-import routes from '../services/routes.js';
+import * as Yup from 'yup';
+import axios from 'axios';
+import {
+  Container, Row, Col, Card, Image, Form, Button,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
-const SingUpForm = () => {
-  const [singUp, { isLoading: isSingingUp }] = useSignupMutation();
-  const [errorUsername, setErrorUsername] = useState('');
-  const [focusUsername, setFocusedUsername] = useState(false);
-  const [focusPassword, setFocusedPassword] = useState(false);
-  const [focusConfirm, setFocusedConfirm] = useState(false);
-  const userData = useSelector((state) => state.user);
-  localStorage.setItem('token', userData.token);
+import image from '../../assets/signup.jpg';
+import routes from '../services/routes.js';
+import { useAuth } from '../services/context/authContext.js';
+
+const SignupPage = () => {
   const { t } = useTranslation();
+  const ref = useRef(null);
+  const navigate = useNavigate();
+  const { logIn } = useAuth();
+  const [signupFailed, setSignupFailed] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
+
+  const signupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, 'signup.usernameLength')
+      .max(20, 'signup.usernameLength')
+      .required('signup.requiredField'),
+    password: Yup.string()
+      .min(6, 'signup.passwordLength')
+      .required('signup.requiredField'),
+    passwordConfirm: Yup.string()
+      .required('signup.requiredField')
+      .oneOf([Yup.ref('password')], 'signup.passwordsMatch'),
+  });
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
-      confirmPassword: '',
+      passwordConfirm: '',
     },
-    validationSchema,
-    onSubmit: async (values) => {
-      const { username, password } = values;
-
-      const response = await singUp({ username, password });
-      if (Object.hasOwn(response, 'error')) {
-        if (response.error.status === 409) setErrorUsername(t('signUpForm.errors.alreadyExist'));
-      }
+    validationSchema: signupSchema,
+    validateOnBlur: false,
+    onSubmit: ({ username, password }, actions) => {
+      setSignupFailed(false);
+      setButtonDisabled(true);
+      axios.post(routes.signupPath(), {
+        username,
+        password,
+      })
+        .then((response) => {
+          logIn(response.data);
+          navigate(routes.chatRoute());
+        })
+        .catch((error) => {
+          actions.setSubmitting(false);
+          setButtonDisabled(false);
+          if (error.isAxiosError && error.response.status === 409) {
+            setSignupFailed(true);
+          }
+        });
     },
   });
 
-  const focus = {
-    username: () => {
-      setFocusedUsername(true);
-      formik.validateField('username');
-    },
-    password: () => {
-      setFocusedPassword(true);
-      formik.validateField('password');
-    },
-    confirm: () => {
-      setFocusedConfirm(true);
-      formik.validateField('confirmPassword');
-    },
-  };
-
-  if (userData.token !== '') return <Navigate to={routes.home} />;
-
   return (
-    <>
-      <CommonHeader />
-      <Container fluid className="row justify-content-center align-content-center">
-        <Card className="h-50 w-25 m-3 mb-1 p-5 shadow">
-          <Card.Header as="h2" className="bg-white border-0 m-2 text-center">{t('signUpForm.title')}</Card.Header>
-          <Form onSubmit={formik.handleSubmit}>
-            <FloatingLabel className="mb-3" label={t('signUpForm.username')} controlId="username">
-              <Form.Control
-                type="name"
-                name="username"
-                className="w-100"
-                onBlur={focus.username}
-                isInvalid={focusUsername && (formik.errors.username || errorUsername)}
-                value={formik.values.username}
-                onChange={formik.handleChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errorUsername !== '' ? errorUsername : t(formik.errors.username)}
-              </Form.Control.Feedback>
-            </FloatingLabel>
-            <FloatingLabel className="mb-3" label={t('signUpForm.password')} controlId="password">
-              <Form.Control
-                type="password"
-                name="password"
-                className="w-100"
-                onBlur={focus.password}
-                isInvalid={focusPassword && formik.errors.password}
-                value={formik.values.password}
-                onChange={formik.handleChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                {t(formik.errors.password)}
-              </Form.Control.Feedback>
-            </FloatingLabel>
-            <FloatingLabel className="mb-4" label={t('signUpForm.confirmPassword')} controlId="confirmPassword">
-              <Form.Control
-                type="password"
-                name="confirmPassword"
-                className="w-100"
-                onBlur={focus.confirm}
-                isInvalid={focusConfirm && formik.errors.confirmPassword}
-                value={formik.values.confirmPassword}
-                onChange={formik.handleChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                {t(formik.errors.confirmPassword)}
-              </Form.Control.Feedback>
-            </FloatingLabel>
-            <Button
-              className="w-100 border-primary bg-white text-primary"
-              type="submit"
-              disabled={isSingingUp}
-            >
-              {t('signUpForm.button')}
-            </Button>
-          </Form>
-        </Card>
-
-      </Container>
-    </>
-
+    <Container fluid className="h-100">
+      <Row className="justify-content-center align-content-center h-100">
+        <Col xs={12} md={8} xxl={6}>
+          <Card className="shadow-sm">
+            <Card.Body className="row p-5">
+              <Col md={6} xs={12} className="d-flex align-items-center justify-content-center">
+                <Image src={image} alt="#" className="rounded-circle" />
+              </Col>
+              <Form onSubmit={formik.handleSubmit} className="w-50">
+                <h1 className="text-center mb-4">{t('signup.registration')}</h1>
+                <Form.Group className="mb-4">
+                  <Form.Label style={{ display: 'none' }} htmlFor="username">{t('signup.username')}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder={t('signup.username')}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.username}
+                    ref={ref}
+                    isInvalid={
+                      (formik.touched.username && formik.errors.username) || signupFailed
+                    }
+                    autoComplete="off"
+                  />
+                  <Form.Text className="text-danger">
+                    {formik.errors.username && formik.touched.username
+                      ? t(formik.errors.username)
+                      : null}
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group className="mb-4">
+                  <Form.Label style={{ display: 'none' }} htmlFor="password">{t('signup.password')}</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder={t('signup.password')}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                    isInvalid={
+                      (formik.touched.password && formik.errors.password) || signupFailed
+                    }
+                  />
+                  <Form.Text className="text-danger">
+                    {formik.errors.password && formik.touched.password
+                      ? t(formik.errors.password)
+                      : null}
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group className="mb-4">
+                  <Form.Label style={{ display: 'none' }} htmlFor="passwordConfirm">{t('signup.passwordConfirm')}</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="passwordConfirm"
+                    id="passwordConfirm"
+                    placeholder={t('signup.passwordConfirm')}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.passwordConfirm}
+                    isInvalid={
+                      (formik.touched.passwordConfirm
+                        && formik.errors.passwordConfirm)
+                      || signupFailed
+                    }
+                  />
+                  <Form.Text className="text-danger">
+                    {formik.errors.passwordConfirm && formik.touched.passwordConfirm
+                      ? t(formik.errors.passwordConfirm)
+                      : null}
+                  </Form.Text>
+                  <Form.Text className="text-danger">
+                    {signupFailed ? t('signup.userExists') : null}
+                  </Form.Text>
+                </Form.Group>
+                <Button
+                  type="submit"
+                  variant="outline-primary"
+                  className="w-100 mb-3"
+                  disabled={buttonDisabled}
+                >
+                  {t('signup.signup')}
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
-export default SingUpForm;
+export default SignupPage;

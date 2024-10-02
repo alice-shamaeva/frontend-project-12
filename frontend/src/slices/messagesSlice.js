@@ -1,27 +1,43 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { messagesApi } from '../services/messagesApi.js';
+import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+
+import { removeChannel } from './channelsSlice';
+import { fetchData } from './loadingSlice.js';
 
 const messagesAdapter = createEntityAdapter();
-const initialState = messagesAdapter.getInitialState();
 
-const slice = createSlice({
+const initialState = messagesAdapter.getInitialState({
+  loadingMessages: 'idle',
+  error: null,
+});
+
+const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    newMessage: messagesAdapter.addOne,
-    removeMessage: messagesAdapter.removeOne,
+    addMessage: messagesAdapter.addOne,
+    addMessages: messagesAdapter.addMany,
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      messagesApi.endpoints.getMessages.matchFulfilled,
-      (state, { payload }) => {
-        messagesAdapter.addMany(state, payload);
-      },
-    );
+    builder
+      .addCase(removeChannel, (state, action) => {
+        const removedChannelId = action.payload;
+        const messagesIds = Object.values(state.entities)
+          .filter((message) => message.channelId === removedChannelId)
+          .map((message) => message.id);
+        messagesAdapter.removeMany(state, messagesIds);
+      })
+      .addCase(fetchData.fulfilled, (state, action) => {
+        messagesAdapter.addMany(state, action.payload.messages);
+      });
   },
 });
 
-export const selectors = messagesAdapter.getSelectors((state) => state.messages);
-export const { newMessage, removeMessage } = slice.actions;
-export default slice.reducer;
+export const addMessage = messagesSlice.actions;
+
+export const getCurrentMessages = (id) => createSelector(
+  [(state) => state.messagesReducer.entities],
+  (entities) => Object.values(entities).filter((message) => message.channelId === id),
+);
+
+export default messagesSlice.reducer;

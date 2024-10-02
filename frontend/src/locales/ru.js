@@ -1,68 +1,79 @@
-export default {
+const ru = {
   translation: {
-    header: {
-      brand: 'Hexlet Chat',
-      button: 'Выйти',
+    language: {
+      currentLanguage: 'Русский',
+      russian: 'Русский',
+      english: 'English',
     },
-    signUpForm: {
-      title: 'Регистрация',
-      username: 'Имя пользователя',
-      password: 'Пароль',
-      confirmPassword: 'Подтвердите пароль',
-      button: 'Зарегистрироваться',
-      errors: {
-        required: 'Обязательное поле',
-        usernameRules: 'От 3 до 20 символов',
-        alreadyExist: 'Такой пользователь уже существует',
-        minPassword: 'Не менее 6 символов',
-        passwordMatch: 'Пароли должны совпадать',
-      },
+    error: {
+      somethingWentWrong: 'Что-то пошло не так',
+      refreshPage: 'Обновить',
     },
-    signInForm: {
-      error: 'Неверные имя пользователя или пароль',
+    login: {
+      signin: 'Войти',
       username: 'Ваш ник',
       password: 'Пароль',
-      button: 'Войти',
-      haveAccount: 'Нет аккаунта?',
+      noAccountYet: 'Нет аккаунта?',
+      signup: 'Регистрация',
+      wrongNameAndPassword: 'Неверные имя пользователя или пароль',
+      requiredField: 'Обязательное поле',
+    },
+    signup: {
       registration: 'Регистрация',
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      passwordConfirm: 'Подтвердите пароль',
+      signup: 'Зарегистрироваться',
+      requiredField: 'Обязательное поле',
+      passwordsMatch: 'Пароли должны совпадать',
+      usernameLength: 'От 3 до 20 символов',
+      passwordLength: 'Не менее 6 символов',
+      userExists: 'Такой пользователь уже существует',
+    },
+    notFound: {
+      pageNotFound: 'Страница не найдена',
+      visit: 'Но вы можете перейти ',
+      mainPage: 'на главную сраницу',
+    },
+    header: {
+      logout: 'Выйти',
+      login: 'Войти',
     },
     chat: {
-      channels: 'Каналы',
-      message: 'Введите сообщение...',
-      send: 'Отправить',
-      count_one: '{{count}} сообщение',
-      count_few: '{{count}} сообщения',
-      count_many: '{{count}} сообщений',
-      dropdownButton: {
-        hiddenLabel: 'Управление каналом',
-        delete: 'Удалить',
-        edit: 'Переименовать',
+      channels: {
+        channels: 'Каналы',
+        remove: 'Удалить',
+        rename: 'Переименовать',
+        manageChannels: 'Управление каналом',
+      },
+      messages: {
+        quantity: {
+          count_one: '{{count}} сообщение',
+          count_few: '{{count}} сообщения',
+          count_many: '{{count}} сообщений',
+        },
+        enterMessage: 'Введите сообщение',
+        newMessage: 'Новое сообщение',
+      },
+      modals: {
+        addChannel: 'Добавить канал',
+        removeChannel: 'Удалить канал',
+        renameChannel: 'Переименовать канал',
+        cancel: 'Отменить',
+        submit: 'Отправить',
+        remove: 'Удалить',
+        areYouSure: 'Вы уверенны?',
+        nameLength: 'От 3 до 20 символов',
+        nameExists: 'Имя уже существует',
+        channelCreated: 'Канал создан',
+        channelRemoved: 'Канал удалён',
+        channelRenamed: 'Канал переименован',
+        connectionError: 'Ошибка соединения',
+        channelName: 'Имя канала',
+        requiredField: 'Обязательное поле',
       },
     },
-    modals: {
-      createHeader: 'Добавить канал',
-      editHeader: 'Переименовать',
-      deleteHeader: 'Удалить канал',
-      deleteBody: 'Уверены?',
-      cancel: 'Отменить',
-      confirmCreate: 'Создать',
-      confirmEdit: 'Отправить',
-      confirmDelete: 'Удалить',
-      errors: {
-        exist: 'Должно быть уникальным',
-        rules: 'От 3 до 20 символов',
-      },
-    },
-    toasts: {
-      create: 'Канал создан',
-      edit: 'Канал переименован',
-      delete: 'Канал удалён',
-      connectionError: 'Ошибка соединения',
-    },
-    labels: {
-      newMessage: 'Новое сообщение',
-      channelName: 'Имя канала',
-    },
-    notFound: '404 not found',
   },
 };
+
+export default ru;

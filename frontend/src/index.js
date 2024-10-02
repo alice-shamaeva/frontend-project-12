@@ -1,20 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { I18nextProvider } from 'react-i18next';
-import App from './components/App';
-import store from './slices/index';
-import i18nextInstance from './services/i18nInstance.js';
+import 'react-toastify/dist/ReactToastify.css';
+import ReactDOM from 'react-dom/client';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <I18nextProvider i18n={i18nextInstance} defaultNS="translation">
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </I18nextProvider>
+import './index.css';
+import init from './services/init.js';
 
-  </React.StrictMode>,
-);
+const app = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  const vdom = await init();
+  root.render(vdom);
+};
+
+app();
