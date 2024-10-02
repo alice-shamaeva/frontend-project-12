@@ -10,7 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
 
-import image from '../../assets/login.jpg';
+import image from '../assets/login.jpg';
 import routes from '../services/routes.js';
 import { useAuth } from '../services/context/authContext.jsx';
 
