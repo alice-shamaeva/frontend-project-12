@@ -1,51 +1,63 @@
-import { useSelector } from 'react-redux';
-import * as filter from 'leo-profanity';
-import Button from 'react-bootstrap/esm/Button';
-import { Send } from 'react-bootstrap-icons';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { Formik } from 'formik';
+import Col from 'react-bootstrap/esm/Col';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAddMessageMutation } from '../../api/messages';
+import { useGetMessagesQuery, messagesApi } from '../../api/messages';
+import socket from '../../socket';
+import MessagesForm from './MessagesForm';
 
-const MessagesForm = () => {
+const Messages = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { data: messages = [] } = useGetMessagesQuery();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
-  const username = useSelector((state) => state.app.username);
-  const [addMessage] = useAddMessageMutation();
-  const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
-    try {
-      const { message } = values;
-      const data = {
-        message: filter.clean(message),
-        channelId: currentChannelId,
-        username,
-      };
-      await addMessage(data);
-      resetForm();
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setSubmitting(false);
+  const currentChannelName = useSelector((state) => state.app.currentChannelName);
+  const filtredMessages = messages.filter((message) => message.channelId === currentChannelId);
+  const messagesContainer = useRef();
+  useEffect(() => {
+    if (messagesContainer.current) {
+      messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
     }
-  };
+  }, [messages]);
+  useEffect(() => {
+    const handleNewMessage = (newMessage) => {
+      dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
+        draft.push(newMessage);
+      }));
+    };
+    socket.on('newMessage', handleNewMessage);
+    return () => {
+      socket.off('newMessage');
+    };
+  }, [dispatch, messagesContainer]);
   return (
-    <div className="mt-auto py-3 px-5">
-      <Formik initialValues={{ message: '' }} onSubmit={handleFormSubmit}>
-        {({ handleSubmit, handleChange, values }) => (
-          <Form onSubmit={handleSubmit}>
-            <InputGroup>
-              <Form.Label htmlFor="new-message" hidden>{t('form.labels.message')}</Form.Label>
-              <Form.Control placeholder={t('form.placeholders.message')} autoFocus id="new-message" aria-label={t('form.labels.newMessage')} value={values.message} onChange={handleChange} type="text" name="message" />
-              <Button type="submit">
-                <Send />
-              </Button>
-            </InputGroup>
-          </Form>
-        )}
-      </Formik>
-    </div>
+    <Col className="p-0 h-100">
+      <div className="d-flex flex-column h-100">
+        <div className="bg-light mb-4 p-3 shadow-sm small">
+          <p className="mb-0">
+            <b>
+              {`# ${currentChannelName}`}
+            </b>
+          </p>
+          <span className="text-muted">
+            {filtredMessages.length}
+            {' '}
+            {t('messages.messages')}
+          </span>
+        </div>
+        <div className="overflow-auto px-5" ref={messagesContainer}>
+          {filtredMessages.map((message) => (
+            <div className="text-break mb-2" key={message.id}>
+              <b>{message.username}</b>
+              :
+              {message.message}
+            </div>
+          ))}
+        </div>
+        <MessagesForm />
+      </div>
+    </Col>
   );
 };
 
-export default MessagesForm;
+export default Messages;
