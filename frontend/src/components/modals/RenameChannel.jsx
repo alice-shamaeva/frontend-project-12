@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { Formik } from 'formik';
@@ -50,8 +51,8 @@ const RenameChannel = (props) => {
           onSubmit={renameChannel}
         >
           {({
-              values, handleChange, handleSubmit, errors,
-            }) => (
+            values, handleChange, handleSubmit, errors,
+          }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Label htmlFor="channelName" visuallyHidden>{t('form.labels.channelName')}</Form.Label>
               <Form.Control ref={input} value={values.channelName} name="channelName" onChange={handleChange} id="channelName" isInvalid={!!errors.channelName} autoFocus />

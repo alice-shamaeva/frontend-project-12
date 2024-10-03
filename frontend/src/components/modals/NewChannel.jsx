@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -40,8 +41,8 @@ const NewChannel = (props) => {
           validationSchema={channelNameSchema}
         >
           {({
-              values, handleChange, handleSubmit, errors,
-            }) => (
+            values, handleChange, handleSubmit, errors,
+          }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Label htmlFor="channelName">{t('form.labels.channelName')}</Form.Label>
               <Form.Control value={values.channelName} name="channelName" onChange={handleChange} id="channelName" isInvalid={!!errors.channelName} autoFocus />

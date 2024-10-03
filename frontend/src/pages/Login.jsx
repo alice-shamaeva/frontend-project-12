@@ -60,8 +60,8 @@ const Login = () => {
                   onSubmit={handleFormSubmit}
                 >
                   {({
-                      handleSubmit, handleChange, values, errors,
-                    }) => (
+                    handleSubmit, handleChange, values, errors,
+                  }) => (
                     <Form onSubmit={handleSubmit} className="form">
                       <h1>{t('loginPage.title')}</h1>
                       <Form.Group className="mb-3">
