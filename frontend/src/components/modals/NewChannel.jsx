@@ -4,19 +4,14 @@ import Button from 'react-bootstrap/Button';
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
 import * as filter from 'leo-profanity';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useAddChannelMutation } from '../../api/channels';
 import { changeChannel } from '../../store/slices/appSlice';
 
 const NewChannel = (props) => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
   const {
-    handleCloseModal, showModal, channelNameSchema,
+    handleCloseModal, showModal, dispatch, t, channelNameSchema,
   } = props;
   const [addChannel] = useAddChannelMutation();
-
   const handleFormSubmit = async (values) => {
     try {
       const { channelName } = values;
@@ -42,13 +37,12 @@ const NewChannel = (props) => {
         <Formik
           initialValues={{ channelName: '' }}
           onSubmit={handleFormSubmit}
-          validateOnChange={false}
           validationSchema={channelNameSchema}
         >
           {({
-            values, handleChange, handleSubmit, errors,
-          }) => (
-              <Form onSubmit={handleSubmit}>
+              values, handleChange, handleSubmit, errors,
+            }) => (
+            <Form onSubmit={handleSubmit}>
               <Form.Label htmlFor="channelName">{t('form.labels.channelName')}</Form.Label>
               <Form.Control value={values.channelName} name="channelName" onChange={handleChange} id="channelName" isInvalid={!!errors.channelName} autoFocus />
               <Form.Control.Feedback type="invalid">{errors.channelName}</Form.Control.Feedback>
@@ -56,7 +50,7 @@ const NewChannel = (props) => {
                 <Button type="button" variant="secondary" onClick={handleCloseModal} className="me-2">{t('form.buttons.cancel')}</Button>
                 <Button type="submit" variant="primary">{t('form.buttons.submit')}</Button>
               </div>
-              </Form>
+            </Form>
           )}
         </Formik>
       </Modal.Body>

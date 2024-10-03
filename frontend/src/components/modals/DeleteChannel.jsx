@@ -1,25 +1,20 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useRemoveChannelMutation } from '../../api/channels';
 import { changeChannel } from '../../store/slices/appSlice';
 
 const DeleteChannel = (props) => {
   const {
-    handleCloseModal, showModal, currentChannelId, modalChannelId,
+    handleCloseModal, showModal, currentChannelId, modalChannelId, dispatch, t,
   } = props;
   const [removeChannel] = useRemoveChannelMutation();
-  const defaultChannel = { id: '1', name: 'general' };
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
   const deleteChannel = async (id) => {
     try {
       await removeChannel(id).unwrap();
       handleCloseModal();
       if (id === currentChannelId) {
-        dispatch(changeChannel(defaultChannel));
+        dispatch(changeChannel({ id: '1', name: 'general' }));
       }
       toast.success(t('toast.deleteChannel'));
     } catch (e) {
@@ -34,21 +29,8 @@ const DeleteChannel = (props) => {
       <Modal.Body>
         <p>{t('modals.textDeleteChannel')}</p>
         <div className="d-flex justify-content-end mt-2">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={handleCloseModal}
-            className="me-2"
-          >
-            {t('form.buttons.cancel')}
-          </Button>
-          <Button
-            type="button"
-            variant="danger"
-            onClick={() => deleteChannel(modalChannelId)}
-          >
-            {t('form.buttons.delete')}
-          </Button>
+          <Button type="button" variant="secondary" onClick={handleCloseModal} className="me-2">{t('form.buttons.cancel')}</Button>
+          <Button type="button" variant="danger" onClick={() => deleteChannel(modalChannelId)}>{t('form.buttons.delete')}</Button>
         </div>
       </Modal.Body>
     </Modal>

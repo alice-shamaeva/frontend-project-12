@@ -1,18 +1,16 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import * as filter from 'leo-profanity';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import { useEffect, useRef } from 'react';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import { useUpdateChannelMutation } from '../../api/channels';
+import { changeChannel } from '../../store/slices/appSlice';
 
 const RenameChannel = (props) => {
-  const { t } = useTranslation();
   const {
-    handleCloseModal, showModal, modalChannelId, channelNameSchema,
+    handleCloseModal, showModal, modalChannelId, dispatch, t, channelNameSchema,
   } = props;
   const input = useRef();
   const [updateChannel] = useUpdateChannelMutation();
@@ -22,12 +20,13 @@ const RenameChannel = (props) => {
     try {
       const { channelName, channelId } = values;
       const data = {
-        name: filter.clean(channelName),
+        name: channelName,
         removable: true,
         id: channelId,
       };
       await updateChannel(data).unwrap();
       handleCloseModal();
+      dispatch(changeChannel({ id: channelId, name: channelName }));
       toast.success(t('toast.renameChannel'));
     } catch (e) {
       console.error(e);
@@ -47,37 +46,21 @@ const RenameChannel = (props) => {
       <Modal.Body>
         <Formik
           initialValues={{ channelName: modalChannelName, channelId: modalChannelId }}
-          validateOnChange={false}
           validationSchema={channelNameSchema}
           onSubmit={renameChannel}
         >
           {({
-            values, handleChange, handleSubmit, errors,
-          }) => (
-              <Form onSubmit={handleSubmit}>
+              values, handleChange, handleSubmit, errors,
+            }) => (
+            <Form onSubmit={handleSubmit}>
               <Form.Label htmlFor="channelName" visuallyHidden>{t('form.labels.channelName')}</Form.Label>
-              <Form.Control
-                ref={input}
-                value={values.channelName}
-                name="channelName"
-                onChange={handleChange}
-                id="channelName"
-                isInvalid={!!errors.channelName}
-                autoFocus
-              />
+              <Form.Control ref={input} value={values.channelName} name="channelName" onChange={handleChange} id="channelName" isInvalid={!!errors.channelName} autoFocus />
               <Form.Control.Feedback type="invalid">{errors.channelName}</Form.Control.Feedback>
               <div className="d-flex justify-content-end mt-2">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleCloseModal}
-                  className="me-2"
-                >
-                  {t('form.buttons.cancel')}
-                </Button>
+                <Button type="button" variant="secondary" onClick={handleCloseModal} className="me-2">{t('form.buttons.cancel')}</Button>
                 <Button type="submit" variant="primary">{t('form.buttons.submit')}</Button>
               </div>
-              </Form>
+            </Form>
           )}
         </Formik>
       </Modal.Body>

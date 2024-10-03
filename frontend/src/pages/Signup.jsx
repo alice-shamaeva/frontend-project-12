@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -10,25 +11,20 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSignupMutation } from '../api/auth';
+import { setUserData } from '../store/slices/appSlice';
 import { appPaths } from '../routes';
 import useAuth from '../hooks';
 
 const Signup = () => {
-  const { logIn } = useAuth();
   const { t } = useTranslation();
+  const { logIn } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signup] = useSignupMutation();
   const signupSchema = Yup.object().shape({
-    nickname: Yup.string()
-      .required(t('form.errors.required'))
-      .min(3, t('form.errors.range'))
-      .max(20, t('form.errors.range')),
-    password: Yup.string()
-      .required(t('form.errors.required'))
-      .min(6, t('form.errors.min')),
-    passwordConfirm: Yup.string()
-      .required(t('form.errors.required'))
-      .oneOf([Yup.ref('password'), null], t('form.errors.passwordMustMatch')),
+    nickname: Yup.string().required(t('form.errors.required')).min(3, t('form.errors.range')).max(20, t('form.errors.range')),
+    password: Yup.string().required(t('form.errors.required')).min(6, t('form.errors.min')),
+    passwordConfirm: Yup.string().required(t('form.errors.required')).oneOf([Yup.ref('password'), null], t('form.errors.passwordMustMatch')),
   });
   const handleFormSubmit = async (values, { setErrors }) => {
     const { nickname, password } = values;
@@ -39,6 +35,7 @@ const Signup = () => {
     const { data, error } = await signup(user);
     if (data) {
       logIn(data.token, nickname);
+      dispatch(setUserData({ nickname, token: data.token }));
       navigate(appPaths.home());
     }
     if (error) {
@@ -60,7 +57,7 @@ const Signup = () => {
           <Card className="shadow-sm">
             <Card.Body className="row">
               <Col xs="12" md="6" className="d-flex align-items-center justify-content-center">
-                <Image src="signup.jpeg" alt={t('signupPage.imgAlt')} />
+                <Image src="signup.jpg" alt={t('signupPage.imgAlt')} />
               </Col>
               <Col xs="12" md="6">
                 <Formik
@@ -70,9 +67,9 @@ const Signup = () => {
                   validateOnChange={false}
                 >
                   {({
-                    handleSubmit, handleChange, values, errors,
-                  }) => (
-                      <Form onSubmit={handleSubmit} className="form">
+                      handleSubmit, handleChange, values, errors,
+                    }) => (
+                    <Form onSubmit={handleSubmit} className="form">
                       <h1>{t('signupPage.title')}</h1>
                       <Form.Group className="mb-3">
                         <Form.Label htmlFor="nickname">{t('signupPage.nickname')}</Form.Label>
@@ -80,17 +77,17 @@ const Signup = () => {
                         <Form.Control.Feedback type="invalid">{errors.nickname}</Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="mb-3">
-                        <Form.Label htmlFor="password">{t('signupPage.password')}</Form.Label>
+                        <Form.Label htmlFor="password">Пароль</Form.Label>
                         <Form.Control required id="password" value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
                         <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="mb-3">
-                        <Form.Label htmlFor="passwordConfirm">{t('signupPage.passwordConfirm')}</Form.Label>
-                        <Form.Control required id="passwordConfirm" value={values.passwordConfirm} onChange={handleChange} type="password" name="passwordConfirm" isInvalid={!!errors.passwordConfirm} />
+                        <Form.Label htmlFor="paswordConfirm">Подтвердите пароль</Form.Label>
+                        <Form.Control required id="paswordConfirm" value={values.passwordConfirm} onChange={handleChange} type="password" name="passwordConfirm" isInvalid={!!errors.passwordConfirm} />
                         <Form.Control.Feedback type="invalid">{errors.passwordConfirm}</Form.Control.Feedback>
                       </Form.Group>
                       <Button type="submit" className="w-100" variant="outline-primary">{t('signupPage.button')}</Button>
-                      </Form>
+                    </Form>
                   )}
                 </Formik>
               </Col>

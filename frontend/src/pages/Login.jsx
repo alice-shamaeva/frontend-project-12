@@ -7,18 +7,18 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks';
+import { toast } from 'react-toastify';
 import { useLoginMutation } from '../api/auth';
 import { appPaths } from '../routes';
+import useAuth from '../hooks';
 
 const Login = () => {
-  const { logIn } = useAuth();
   const { t } = useTranslation();
-  const [login] = useLoginMutation();
+  const { logIn } = useAuth();
   const navigate = useNavigate();
-  const submitForm = async (values, { setErrors }) => {
+  const [login] = useLoginMutation();
+  const handleFormSubmit = async (values, { setErrors }) => {
     const { nickname, password } = values;
     const user = {
       username: nickname,
@@ -45,10 +45,9 @@ const Login = () => {
       }
     }
   };
-
   return (
-    <Container className="container-fluid h-100">
-      <Row className="justify-content-center align-content-center h-100">
+    <Container className="mb-auto mt-auto">
+      <Row className="justify-content-center">
         <Col xs="12" md="8" xxl="8">
           <Card className="shadow-sm">
             <Card.Body className="row">
@@ -58,41 +57,24 @@ const Login = () => {
               <Col xs="12" md="6">
                 <Formik
                   initialValues={{ nickname: '', password: '' }}
-                  onSubmit={submitForm}
+                  onSubmit={handleFormSubmit}
                 >
                   {({
-                    handleSubmit, handleChange, values, errors,
-                  }) => (
-                      <Form onSubmit={handleSubmit} className="form">
+                      handleSubmit, handleChange, values, errors,
+                    }) => (
+                    <Form onSubmit={handleSubmit} className="form">
                       <h1>{t('loginPage.title')}</h1>
                       <Form.Group className="mb-3">
                         <Form.Label htmlFor="nickname">{t('loginPage.nickname')}</Form.Label>
-                        <Form.Control
-                          id="nickname"
-                          required
-                          value={values.nickname}
-                          onChange={handleChange}
-                          type="text"
-                          name="nickname"
-                          isInvalid={!!errors.password}
-                          autoFocus
-                        />
+                        <Form.Control id="nickname" required value={values.nickname} onChange={handleChange} type="text" name="nickname" isInvalid={!!errors.password} autoFocus />
                       </Form.Group>
                       <Form.Group className="mb-3 position-relative">
                         <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
-                        <Form.Control
-                          id="password"
-                          required
-                          value={values.password}
-                          onChange={handleChange}
-                          type="password"
-                          name="password"
-                          isInvalid={!!errors.password}
-                        />
+                        <Form.Control id="password" required value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
                         <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback>
                       </Form.Group>
                       <Button type="submit" className="w-100" variant="outline-primary">{t('loginPage.button')}</Button>
-                      </Form>
+                    </Form>
                   )}
                 </Formik>
               </Col>

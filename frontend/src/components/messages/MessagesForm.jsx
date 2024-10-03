@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { useAddMessageMutation } from '../../api/messages';
 
-const Message = () => {
+const MessagesForm = () => {
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const username = useSelector((state) => state.app.username);
   const [addMessage] = useAddMessageMutation();
@@ -44,7 +44,7 @@ const Message = () => {
         {({
           handleSubmit, handleChange, values, errors,
         }) => (
-            <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <InputGroup>
               <Form.Label htmlFor="newMessage" hidden>{t('form.labels.message')}</Form.Label>
               <Form.Control
@@ -63,11 +63,11 @@ const Message = () => {
               </Button>
               <Form.Control.Feedback type="invalid">{errors.message}</Form.Control.Feedback>
             </InputGroup>
-            </Form>
+          </Form>
         )}
       </Formik>
     </div>
   );
 };
 
-export default Message;
+export default MessagesForm;

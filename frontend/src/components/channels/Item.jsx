@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { changeChannel, setChannelModal } from '../../store/slices/appSlice';
 
-const Channel = ({ data }) => {
-  const dispatch = useDispatch();
+const Item = ({ data }) => {
+  const { t } = useTranslation();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const variantButton = data.id === currentChannelId ? 'secondary' : 'light';
-  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const switchChannel = () => {
     const { id, name } = data;
     if (id !== currentChannelId) {
@@ -24,20 +24,9 @@ const Channel = ({ data }) => {
     <Nav.Item>
       {data.removable ? (
         <Dropdown as={ButtonGroup} drop="down" className="w-100">
-          <Button
-            onClick={() => switchChannel()}
-            className="w-100 rounded-0 text-start text-truncate"
-            variant={variantButton}
-          >
-            {`# ${data.name}`}
-          </Button>
-          <Dropdown.Toggle
-            as={Button}
-            className="text-end"
-            split
-            variant={variantButton}
-            id={`dropdown-split-button${data.id}`}
-          >
+          <Button onClick={() => switchChannel()} className="w-100 rounded-0 text-start text-truncate" variant={variantButton}>{`# ${data.name}`}</Button>
+
+          <Dropdown.Toggle as={Button} className="text-end" split variant={variantButton} id={`dropdown-split-button${data.id}`}>
             <span className="visually-hidden">{t('dropdown.toggle')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -59,4 +48,4 @@ const Channel = ({ data }) => {
   );
 };
 
-export default Channel;
+export default Item;

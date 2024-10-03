@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import appReducer from './slices/appSlice.js';
 import { authApi } from '../api/auth';
 import { channelsApi } from '../api/channels';
@@ -12,5 +13,5 @@ export default configureStore({
     [messagesApi.reducerPath]: messagesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-    .concat(authApi.middleware, channelsApi.middleware, messagesApi.middleware),
+    .concat(channelsApi.middleware, messagesApi.middleware, authApi.middleware),
 });
