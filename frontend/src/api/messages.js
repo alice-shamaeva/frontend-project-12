@@ -5,20 +5,23 @@ import { apiPaths } from '../routes';
 export const messagesApi = createApi({
   reducerPath: 'messages',
   baseQuery: fetchBaseQuery(
-    {
-      baseUrl: apiPaths.messages(), prepareHeaders: setHeaders,
-    },
+    { baseUrl: apiPaths.messages(), prepareHeaders: setHeaders, tagTypes: ['Messages'] },
   ),
-  tagTypes: ['Message'],
+  tagTypes: ['Messages'],
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: () => '',
-      providesTags: ['Message'],
     }),
     addMessage: builder.mutation({
       query: (message) => ({
         method: 'POST',
         body: message,
+      }),
+    }),
+    removeMessage: builder.mutation({
+      query: (id) => ({
+        method: 'DELETE',
+        url: id,
       }),
     }),
   }),
@@ -27,4 +30,5 @@ export const messagesApi = createApi({
 export const {
   useGetMessagesQuery,
   useAddMessageMutation,
+  useRemoveMessageMutation,
 } = messagesApi;

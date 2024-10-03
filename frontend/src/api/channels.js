@@ -5,15 +5,11 @@ import { apiPaths } from '../routes';
 export const channelsApi = createApi({
   reducerPath: 'channels',
   baseQuery: fetchBaseQuery(
-    {
-      baseUrl: apiPaths.channels(), prepareHeaders: setHeaders,
-    },
+    { baseUrl: apiPaths.channels(), prepareHeaders: setHeaders, tagTypes: ['Channels'] },
   ),
-  tagTypes: ['Channel'],
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => '',
-      providesTags: ['Channel'],
     }),
     addChannel: builder.mutation({
       query: (channel) => ({
@@ -33,7 +29,6 @@ export const channelsApi = createApi({
         method: 'DELETE',
         url: id,
       }),
-      invalidatesTags: ['Message'],
     }),
   }),
 });
