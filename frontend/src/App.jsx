@@ -1,35 +1,31 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import { Provider, ErrorBoundary } from '@rollbar/react';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.css';
-import Signup from './pages/Signup';
-import Header from './components/Header';
-import PrivateRoute from './components/PrivateRoute';
-import { appPaths } from './routes';
+import React from 'react';
+import {
+  BrowserRouter, Navigate, Route, Routes,
+} from 'react-router-dom';
+import Checker from './pages/chat/component/Checker';
+import Login from './context/Login.jsx';
+import NotFoundPage from './pages/notFoundPages';
+import Signup from './context/Signup.jsx';
 
-const rollbarConfig = {
-  accessToken: process.env.REACT_APP_TOKEN_ACCESS,
-  environment: 'production',
+import { useAuthContext } from './context/index';
+import MainProvider from './context/MainProvider';
+
+const PrivateRoute = ({ children }) => {
+  const authContext = useAuthContext();
+  return authContext.data ? children : <Navigate to="/login" />;
 };
+
 const App = () => (
-  <Provider config={rollbarConfig}>
-    <ErrorBoundary>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path={appPaths.notFound()} element={<NotFound />} />
-          <Route path={appPaths.home()} element={<PrivateRoute><Home /></PrivateRoute>} />
-          <Route path={appPaths.login()} element={<Login />} />
-          <Route path={appPaths.signup()} element={<Signup />} />
-        </Routes>
-        <ToastContainer />
-      </BrowserRouter>
-    </ErrorBoundary>
-  </Provider>
+  <MainProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={(<PrivateRoute><Checker /></PrivateRoute>)} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
+  </MainProvider>
 );
 
 export default App;

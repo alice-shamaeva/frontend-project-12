@@ -1,15 +1,6 @@
-import ReactDOM from 'react-dom/client';
-import React from 'react';
-import init from './init.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
+import './styles/styles.css';
+import runApp from './init';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-const html = document.querySelector('html');
-const body = document.querySelector('body');
-html.classList.add('h-100');
-body.classList.add('h-100');
-document.getElementById('root').classList.add('h-100');
-root.render(
-  <React.StrictMode>
-    {await init()}
-  </React.StrictMode>,
-);
+runApp();
