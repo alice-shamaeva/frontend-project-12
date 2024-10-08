@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loaderSelector, toDefault } from '../../../redux/slices/loaderSlice.js';
 import SpinnerComponent from './SpinnerComponent.jsx';
-import { useAuthContext } from '../../../context/index';
+import { useAuthContext } from '../../../context';
 import fetchAuthorizationData from '../../../redux/thunk.js';
 import Chat from '../Chat';
 

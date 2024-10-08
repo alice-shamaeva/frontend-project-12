@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {messagesSelector} from '../../../redux/slices/messagesSlice.js';
-import {channelIdSelector} from '../../../redux/slices/channelsSlice.js';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { messagesSelector } from '../../../redux/slices/messagesSlice.js';
+import { channelIdSelector } from '../../../redux/slices/channelsSlice.js';
 
 const Messages = () => {
   const currentChannelID = useSelector(channelIdSelector);
@@ -9,7 +9,8 @@ const Messages = () => {
 
   useEffect(() => {
     const messagesBox = document.getElementById('messages-box');
-    messagesBox.scrollTop = messagesBox.scrollHeight;
+    const scHeight = messagesBox.scrollHeight;
+    messagesBox.scrollTop = scHeight;
   });
 
   return messages

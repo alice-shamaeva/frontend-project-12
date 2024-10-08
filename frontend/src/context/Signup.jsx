@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
 import { useAuthContext } from './index.js';
-import { registartionSchema } from '../schemas/index';
+import { registartionSchema } from '../schemas';
 import Nav from '../pages/Nav.jsx';
 
 const Signup = () => {

@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
 import { ToastContainer } from 'react-toastify';
-import { toastError } from '../pages/toasts/index';
+import { toastError } from '../pages/toasts';
 import { useAuthContext } from './index.js';
 
 import Nav from '../pages/Nav.jsx';

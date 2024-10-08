@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuthContext } from '../context/index';
+import { useAuthContext } from '../context';
 import { toDefault } from '../redux/slices/loaderSlice.js';
 
 const Nav = ({ button }) => {

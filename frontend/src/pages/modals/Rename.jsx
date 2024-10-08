@@ -6,12 +6,12 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { useTranslation } from 'react-i18next';
-import { channelSchema } from '../../schemas/index';
-import { useSocketContext } from '../../context/index';
+import { channelSchema } from '../../schemas';
+import { useSocketContext } from '../../context';
 import isExistsChannelName from '../../utils/isExistsChannelName.js';
 import { channelsSelector } from '../../redux/slices/channelsSlice.js';
 import { modalSelector, closeModal } from '../../redux/slices/modalSlice.js';
-import { toastInfo } from '../toasts/index';
+import { toastInfo } from '../toasts';
 
 import unlockElementWithDelay from '../../utils/unlockElementWithDelay.js';
 

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { I18nextProvider } from 'react-i18next';
-import { SocketContext } from './context/index';
+import { SocketContext } from './context';
 import { addChannel, deleteChannel, renameChannel } from './redux/slices/channelsSlice.js';
 import { addMessage } from './redux/slices/messagesSlice.js';
 import store from './redux/index.js';

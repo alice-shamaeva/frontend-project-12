@@ -1,8 +1,8 @@
 /* eslint-disable import/extensions */
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import fetchAuthorizationData from '../thunk.js';
 
-import {deleteChannel} from './channelsSlice.js';
+import { deleteChannel } from './channelsSlice.js';
 
 const messagesSlice = createSlice({
   name: 'messages',
@@ -17,7 +17,8 @@ const messagesSlice = createSlice({
       .addCase(fetchAuthorizationData.fulfilled, (state, { payload }) => payload.messages);
     builder
       .addCase(deleteChannel, (state, { payload }) => {
-        return state.filter(({channelId}) => channelId !== payload.id);
+        const filtered = state.filter(({ channelId }) => channelId !== payload.id);
+        return filtered;
       });
   },
 });
