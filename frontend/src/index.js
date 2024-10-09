@@ -1,6 +1,11 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.css';
-import './styles/styles.css';
-import runApp from './init';
+import ReactDOM from 'react-dom/client';
+import init from './init.jsx';
 
-runApp();
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const app = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(await init());
+};
+
+app();
